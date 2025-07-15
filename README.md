@@ -1,1 +1,0 @@
-# MeghaR_S82_Attendance_management_project
