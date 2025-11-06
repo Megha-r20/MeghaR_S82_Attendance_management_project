@@ -1,17 +1,18 @@
 package com.school;
 
 public class Student {
+    private static int nextStudentIdCounter = 1; // Auto-increment ID counter
     private int studentId;
     private String name;
 
-    // Method to set details
-    public void setDetails(int studentId, String name) {
-        this.studentId = studentId;
+    // Constructor for initialization
+    public Student(String name) {
+        this.studentId = nextStudentIdCounter++;
         this.name = name;
     }
 
-    // Method to display details
+    // Display details
     public void displayDetails() {
-        System.out.println("Student ID: " + studentId + ", Name: " + name);
+        System.out.println("Student ID: S" + studentId + ", Name: " + name);
     }
 }
