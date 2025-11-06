@@ -32,8 +32,9 @@ public class RegistrationService {
         return st;
     }
 
-    public Course createCourse(String courseName) {
-        Course c = new Course(courseName);
+    // Updated to include capacity
+    public Course createCourse(String courseName, int capacity) {
+        Course c = new Course(courseName, capacity);
         courses.add(c);
         return c;
     }
@@ -61,6 +62,22 @@ public class RegistrationService {
     public Course findCourseById(int id) {
         for (Course c : courses) if (c.getId() == id) return c;
         return null;
+    }
+
+    // --- Enrollment Management ---
+    public boolean enrollStudentInCourse(Student student, Course course) {
+        if (student == null || course == null) {
+            System.out.println("⚠️ Invalid student or course!");
+            return false;
+        }
+
+        boolean success = course.addStudent(student);
+        if (success) {
+            System.out.println("✅ " + student.getName() + " successfully enrolled in " + course.getCourseName());
+        } else {
+            System.out.println("❌ Enrollment failed: Course '" + course.getCourseName() + "' is full!");
+        }
+        return success;
     }
 
     // --- Save all registrations ---

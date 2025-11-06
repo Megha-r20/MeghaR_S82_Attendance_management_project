@@ -1,2 +1,2 @@
-101,Mathematics
-102,Science
+C101,Mathematics,Dr. Rao,2
+C102,Physics,Dr. Mehta,1

@@ -1,46 +1,28 @@
-package com.school;
-
-import java.util.*;
-
 public class Main {
-    public static void displaySchoolDirectory(RegistrationService regService) {
-        System.out.println("=== School Directory ===");
-        for (Person person : regService.getAllPeople()) {
-            person.displayDetails();
-            System.out.println("----------------------");
-        }
-    }
-
     public static void main(String[] args) {
-        FileStorageService fileStorage = new FileStorageService();
-        RegistrationService regService = new RegistrationService(fileStorage);
-        AttendanceService attendanceService = new AttendanceService(fileStorage, regService);
+        RegistrationService registrationService = new RegistrationService();
 
-        // Register people
-        Student s1 = regService.registerStudent("Megha", "10th Grade");
-        Student s2 = regService.registerStudent("Rahul", "9th Grade");
-        Teacher t1 = regService.registerTeacher("Ravi", "Mathematics");
-        Staff st1 = regService.registerStaff("Priya", "Librarian");
+        // Create courses with capacity
+        Course c1 = registrationService.createCourse("C101", "Mathematics", "Dr. Rao", 2);
+        Course c2 = registrationService.createCourse("C102", "Physics", "Dr. Mehta", 1);
 
-        // Create courses
-        Course c1 = regService.createCourse("Mathematics");
-        Course c2 = regService.createCourse("Science");
+        // Create students
+        Student s1 = new Student("S001", "Alice", "CSE");
+        Student s2 = new Student("S002", "Bob", "ECE");
+        Student s3 = new Student("S003", "Charlie", "EEE");
 
-        // Display directory
-        displaySchoolDirectory(regService);
+        // Enroll students
+        registrationService.enrollStudentInCourse(s1, c1);
+        registrationService.enrollStudentInCourse(s2, c1);
+        registrationService.enrollStudentInCourse(s3, c1); // exceeds capacity
 
-        // Mark attendance
-        attendanceService.markAttendance(s1, c1, "Present");
-        attendanceService.markAttendance(s1, c2, "Absent");
-        attendanceService.markAttendance(s2.getId(), c1.getId(), "Present");
+        registrationService.enrollStudentInCourse(s1, c2);
+        registrationService.enrollStudentInCourse(s2, c2); // exceeds capacity
 
-        // Display logs
-        attendanceService.displayAttendanceLog();
-        attendanceService.displayAttendanceLog(s1);
-        attendanceService.displayAttendanceLog(c1);
-
-        // Save data
-        regService.saveAllRegistrations();
-        attendanceService.saveAttendanceData();
+        // Display course details
+        System.out.println("\n--- Course Details After Enrollment ---");
+        c1.displayDetails();
+        System.out.println();
+        c2.displayDetails();
     }
 }
