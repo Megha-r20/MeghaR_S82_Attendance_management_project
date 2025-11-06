@@ -1,33 +1,22 @@
 package com.school;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("=== Attendance Management Project - Constructor Initialization & Auto-ID Generation ===");
+        Student s1 = new Student(1, "Megha");
+        Student s2 = new Student(2, "Ravi");
+        Course c1 = new Course(101, "Mathematics");
+        Course c2 = new Course(102, "Physics");
 
-        // Create students using constructors
-        Student[] students = {
-            new Student("Alice"),
-            new Student("Bob"),
-            new Student("Charlie")
-        };
+        List<AttendanceRecord> attendanceLog = new ArrayList<>();
+        attendanceLog.add(new AttendanceRecord(s1.getStudentId(), c1.getCourseId(), "Present"));
+        attendanceLog.add(new AttendanceRecord(s2.getStudentId(), c2.getCourseId(), "Absent"));
+        attendanceLog.add(new AttendanceRecord(s1.getStudentId(), c2.getCourseId(), "Late")); // invalid test
 
-        // Create courses using constructors
-        Course[] courses = {
-            new Course("Mathematics"),
-            new Course("Computer Science"),
-            new Course("Physics")
-        };
-
-        // Display students
-        System.out.println("\n--- Student Details ---");
-        for (Student student : students) {
-            student.displayDetails();
-        }
-
-        // Display courses
-        System.out.println("\n--- Course Details ---");
-        for (Course course : courses) {
-            course.displayDetails();
+        for (AttendanceRecord record : attendanceLog) {
+            record.displayRecord();
         }
     }
 }
