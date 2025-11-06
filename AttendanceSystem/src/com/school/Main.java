@@ -3,46 +3,44 @@ package com.school;
 import java.util.*;
 
 public class Main {
-
-    public static void displaySchoolDirectory(List<Person> people) {
+    public static void displaySchoolDirectory(RegistrationService regService) {
         System.out.println("=== School Directory ===");
-        for (Person person : people) {
+        for (Person person : regService.getAllPeople()) {
             person.displayDetails();
             System.out.println("----------------------");
         }
     }
 
     public static void main(String[] args) {
-        // --- Create people ---
-        Student s1 = new Student("Megha", "10th Grade");
-        Student s2 = new Student("Rahul", "9th Grade");
-        Teacher t1 = new Teacher("Ravi", "Mathematics");
-        Staff st1 = new Staff("Priya", "Librarian");
+        FileStorageService fileStorage = new FileStorageService();
+        RegistrationService regService = new RegistrationService(fileStorage);
+        AttendanceService attendanceService = new AttendanceService(fileStorage, regService);
 
-        List<Person> schoolPeople = List.of(s1, s2, t1, st1);
-        displaySchoolDirectory(schoolPeople);
+        // Register people
+        Student s1 = regService.registerStudent("Megha", "10th Grade");
+        Student s2 = regService.registerStudent("Rahul", "9th Grade");
+        Teacher t1 = regService.registerTeacher("Ravi", "Mathematics");
+        Staff st1 = regService.registerStaff("Priya", "Librarian");
 
-        // --- Create Courses ---
-        Course c1 = new Course("Mathematics");
-        Course c2 = new Course("Science");
-        List<Course> allCourses = List.of(c1, c2);
+        // Create courses
+        Course c1 = regService.createCourse("Mathematics");
+        Course c2 = regService.createCourse("Science");
 
-        // --- Create Storage and Attendance Services ---
-        FileStorageService storage = new FileStorageService();
-        AttendanceService attendanceService = new AttendanceService(storage);
+        // Display directory
+        displaySchoolDirectory(regService);
 
-        // --- Mark attendance using overloaded methods ---
-        attendanceService.markAttendance(s1, c1, "Present");  // by object
-        attendanceService.markAttendance(s2, c2, "Absent");   // by object
-        attendanceService.markAttendance(s1.getId(), c2.getCourseId(), "Present",
-                                         List.of(s1, s2), allCourses); // by ID
+        // Mark attendance
+        attendanceService.markAttendance(s1, c1, "Present");
+        attendanceService.markAttendance(s1, c2, "Absent");
+        attendanceService.markAttendance(s2.getId(), c1.getId(), "Present");
 
-        // --- Display logs using overloaded methods ---
-        attendanceService.displayAttendanceLog();     // all records
-        attendanceService.displayAttendanceLog(s1);   // student-based
-        attendanceService.displayAttendanceLog(c2);   // course-based
+        // Display logs
+        attendanceService.displayAttendanceLog();
+        attendanceService.displayAttendanceLog(s1);
+        attendanceService.displayAttendanceLog(c1);
 
-        // --- Save to file ---
+        // Save data
+        regService.saveAllRegistrations();
         attendanceService.saveAttendanceData();
     }
 }

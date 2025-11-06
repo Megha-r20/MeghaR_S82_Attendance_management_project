@@ -19,19 +19,15 @@ public class AttendanceRecord implements Storable {
         return course;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
     public void displayRecord() {
         System.out.println("Student: " + student.getName() + " (ID: " + student.getId() + ")");
-        System.out.println("Course: " + course.getCourseName() + " (Course ID: " + course.getCourseId() + ")");
+        System.out.println("Course: " + course.getCourseName() + " (Course ID: " + course.getId() + ")");
         System.out.println("Status: " + status);
         System.out.println("--------------------------");
     }
 
     @Override
     public String toDataString() {
-        return student.getId() + "," + course.getCourseId() + "," + status;
+        return student.getId() + "," + course.getId() + "," + status;
     }
 }
