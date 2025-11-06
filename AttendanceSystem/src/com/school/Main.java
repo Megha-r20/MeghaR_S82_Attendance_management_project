@@ -1,36 +1,66 @@
 package com.school;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Main {
+
+    public static void displaySchoolDirectory(List<Person> people) {
+        System.out.println("=== School Directory ===");
+        for (Person person : people) {
+            person.displayDetails(); // Polymorphic call
+            System.out.println("----------------------");
+        }
+    }
+
     public static void main(String[] args) {
         // Create Students
-        ArrayList<Student> students = new ArrayList<>();
-        students.add(new Student("Megha", "10th Grade"));
-        students.add(new Student("Ravi", "12th Grade"));
+        Student s1 = new Student("Megha", "10th Grade");
+        Student s2 = new Student("Rahul", "9th Grade");
+
+        // Create Teacher and Staff
+        Teacher t1 = new Teacher("Ravi", "Mathematics");
+        Staff st1 = new Staff("Priya", "Librarian");
+
+        // Create list for polymorphism
+        ArrayList<Person> schoolPeople = new ArrayList<>();
+        schoolPeople.add(s1);
+        schoolPeople.add(s2);
+        schoolPeople.add(t1);
+        schoolPeople.add(st1);
+
+        // Display School Directory
+        displaySchoolDirectory(schoolPeople);
 
         // Create Courses
+       Course c1 = new Course("Mathematics");
+       Course c2 = new Course("Science");
+
+
+        // Create Attendance Records (using actual objects)
+        AttendanceRecord r1 = new AttendanceRecord(s1, c1, "Present");
+        AttendanceRecord r2 = new AttendanceRecord(s1, c2, "Absent");
+
+        System.out.println("=== Attendance Log ===");
+        r1.displayRecord();
+        r2.displayRecord();
+
+        // Prepare lists for saving data
+        ArrayList<Student> students = new ArrayList<>();
+        for (Person p : schoolPeople) {
+            if (p instanceof Student) {
+                students.add((Student) p);
+            }
+        }
+
         ArrayList<Course> courses = new ArrayList<>();
-        courses.add(new Course("Mathematics"));
-        courses.add(new Course("Physics"));
+        courses.add(c1);
+        courses.add(c2);
 
-        // Create Attendance Records
         ArrayList<AttendanceRecord> records = new ArrayList<>();
-        records.add(new AttendanceRecord(students.get(0).getId(), courses.get(0).getCourseId(), "Present"));
-        records.add(new AttendanceRecord(students.get(1).getId(), courses.get(1).getCourseId(), "Late"));
+        records.add(r1);
+        records.add(r2);
 
-        // Display Data
-        System.out.println("\n=== Students ===");
-        for (Student s : students) s.displayDetails();
-
-        System.out.println("\n=== Courses ===");
-        for (Course c : courses) c.displayDetails();
-
-        System.out.println("\n=== Attendance Records ===");
-        for (AttendanceRecord r : records) r.displayRecord();
-
-        // Save Data to Files
+        // Save data
         FileStorageService storage = new FileStorageService();
         storage.saveData(students, "students.txt");
         storage.saveData(courses, "courses.txt");
