@@ -62,3 +62,31 @@ In this part, we have set up the basic project structure and verified that the e
 3. Run: `java -cp src com.school.Main`
 4. Check the generated files: `students.txt`, `courses.txt`, `attendance_log.txt`.
 
+## Part 07: Polymorphic Behaviour in Attendance and Displaying Reports
+
+- Implemented runtime polymorphism using `Person` hierarchy.
+- Updated `AttendanceRecord` to reference `Student` and `Course` objects.
+- Added `displaySchoolDirectory()` for polymorphic display.
+- Verified creation of students.txt, courses.txt, and attendance_log.txt.
+
+
+## Part 8: Overloaded Commands for Attendance and Querying
+- Implemented `AttendanceService` class to manage attendance using overloaded methods.
+- Supported:
+  - Marking attendance using Student/Course objects.
+  - Marking attendance using IDs.
+  - Querying attendance for a specific student or course.
+- Demonstrated method overloading and filtering with polymorphism.
+- Integrated data persistence via `FileStorageService`.
+
+### How to Run
+1. Navigate to project root.
+2. Compile: `javac -encoding UTF-8 -d out src/com/school/*.java`
+3. Run: `java -cp out com.school.Main`
+4. Check generated file: `attendance_log.txt`
+
+### Output
+- Console shows all overloaded attendance logs.
+- `attendance_log.txt` contains saved records.
+
+
